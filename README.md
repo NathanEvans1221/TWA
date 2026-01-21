@@ -35,7 +35,7 @@ bubblewrap init --manifest https://ai-temple.vercel.app/manifest.json
 4. App Details:
     - 大部分選項 Bubblewrap 會從 manifest.json 自動抓取，您可以直接按 Enter 使用預設值。
     - Application ID: 確認為 com.aitemple.twa (或您喜歡的 ID)。
-    - KeyStore: 如果詢問是否建立 KeyStore，請回答 Y，並設定一組密碼 (請記住此密碼)。
+    - KeyStore: 如果詢問是否建立 KeyStore，請回答 Y，並設定一組密碼，例如:123456 (請記住此密碼)。
 完成後，請告訴我，我將協助您進行下一步（建置 APK 與設定 assetlinks.json）。
 
 - 安裝畫面
@@ -137,6 +137,87 @@ the PWA:
     ```
 
     > 💡 **提示**：Port 8081 可能被 WSL 等其他服務佔用，建議使用 8088 或其他未被佔用的 port。
+
+---
+
+## 🔧 常見問題與解決方案 (Troubleshooting)
+
+### 1. 忘記 KeyStore 密碼
+
+如果您忘記了 KeyStore 密碼，執行 `bubblewrap build` 時會出現以下錯誤：
+
+```
+java.io.IOException: keystore password was incorrect
+```
+
+**解決方案**：重新生成 KeyStore（需刪除舊的 KeyStore 檔案）
+
+```powershell
+# 切換到 android-app 目錄
+cd android-app
+
+# 刪除舊的 KeyStore
+Remove-Item android.keystore
+
+# 重新初始化專案（會重新建立 KeyStore）
+# 請確保 http-server 正在運行
+bubblewrap init --manifest http://localhost:8088/manifest.json
+```
+
+> ⚠️ **警告**：如果已經用舊的 KeyStore 發布過 APP 到 Google Play，重新生成 KeyStore 後將**無法更新該 APP**，只能發布全新的 APP。請務必妥善保管 KeyStore 密碼！
+
+---
+
+### 2. JVM 記憶體不足
+
+執行 `bubblewrap build` 時出現以下錯誤：
+
+```
+Error occurred during initialization of VM
+Could not reserve enough space for 1572864KB object heap
+```
+
+**原因**：Gradle 預設需要 1.5GB 記憶體，但系統無法分配足夠的連續記憶體空間。
+
+**解決方案**：修改 `android-app/gradle.properties`，降低 JVM 記憶體設定
+
+```properties
+# 原本的設定（1.5GB）
+org.gradle.jvmargs=-Xmx1536m
+
+# 改為較低的設定（512MB）
+org.gradle.jvmargs=-Xmx512m
+```
+
+> 💡 **提示**：每次執行 `bubblewrap init` 都會重新產生 `gradle.properties`，記得再次修改記憶體設定。
+
+---
+
+### 3. Android SDK 路徑衝突
+
+執行 `bubblewrap build` 時出現以下錯誤：
+
+```
+Several environment variables and/or system properties contain different paths to the SDK.
+
+ANDROID_HOME: C:\Users\chiis\.bubblewrap\android_sdk
+ANDROID_SDK_ROOT: C:\Users\chiis\AppData\Local\Android\Sdk
+```
+
+**原因**：系統同時設定了 `ANDROID_HOME` 和 `ANDROID_SDK_ROOT` 兩個不同的 SDK 路徑。
+
+**解決方案**：在執行 `bubblewrap build` 前，先設定正確的環境變數
+
+```powershell
+# 移除 ANDROID_SDK_ROOT，統一使用 ANDROID_HOME
+$env:ANDROID_SDK_ROOT = $null
+$env:ANDROID_HOME = "C:\Users\chiis\.bubblewrap\android_sdk"
+
+# 執行建置
+bubblewrap build
+```
+
+> 💡 **提示**：如果要永久解決此問題，可以在系統環境變數中移除 `ANDROID_SDK_ROOT`，或將其設定為與 `ANDROID_HOME` 相同的路徑。
 
 ---
 完成後，請告訴我，我將協助您進行下一個步驟。

@@ -18,6 +18,8 @@ local.properties
 *.aab
 *.idsig
 manifest-checksum.txt
+hs_err_pid*.log
+.python-version
 
 # Android Studio / IntelliJ
 .idea/

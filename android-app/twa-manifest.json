@@ -1,8 +1,8 @@
 {
-  "packageId": "com.aitemple.twa",
+  "packageId": "localhost_8088.twa",
   "host": "math-monsters-shooter.liawchiisen.workers.dev",
   "name": "Math Monsters Shooter",
-  "launcherName": "Math Monsters Shooter",
+  "launcherName": "Math Monster",
   "display": "standalone",
   "themeColor": "#FFFFFF",
   "themeColorDark": "#000000",

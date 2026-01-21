@@ -21,11 +21,11 @@ plugins {
 }
 
 def twaManifest = [
-    applicationId: 'com.aitemple.twa',
+    applicationId: 'localhost_8088.twa',
     hostName: 'math-monsters-shooter.liawchiisen.workers.dev', // The domain being opened in the TWA.
     launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
     name: 'Math Monsters Shooter', // The application name.
-    launcherName: 'Math Monsters Shooter', // The name shown on the Android Launcher.
+    launcherName: 'Math Monster', // The name shown on the Android Launcher.
     themeColor: '#FFFFFF', // The color used for the status bar.
     themeColorDark: '#000000', // The color used for the dark status bar.
     navigationColor: '#000000', // The color used for the navigation bar.
@@ -52,9 +52,9 @@ def twaManifest = [
 
 android {
     compileSdkVersion 36
-    namespace "com.aitemple.twa"
+    namespace "localhost_8088.twa"
     defaultConfig {
-        applicationId "com.aitemple.twa"
+        applicationId "localhost_8088.twa"
         minSdkVersion 21
         targetSdkVersion 35
         versionCode 2
