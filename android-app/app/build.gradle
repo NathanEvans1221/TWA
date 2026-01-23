@@ -21,7 +21,7 @@ plugins {
 }
 
 def twaManifest = [
-    applicationId: 'localhost_8088.twa',
+    applicationId: 'math.monsters.twa',
     hostName: 'math-monsters-shooter.liawchiisen.workers.dev', // The domain being opened in the TWA.
     launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
     name: 'Math Monsters Shooter', // The application name.
@@ -52,9 +52,9 @@ def twaManifest = [
 
 android {
     compileSdkVersion 36
-    namespace "localhost_8088.twa"
+    namespace "math.monsters.twa"
     defaultConfig {
-        applicationId "localhost_8088.twa"
+        applicationId "math.monsters.twa"
         minSdkVersion 21
         targetSdkVersion 35
         versionCode 3

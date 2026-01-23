@@ -32,7 +32,7 @@ captures/
 
 # Keystore files (Security: Do not commit these unless intentional)
 *.jks
-*.keystore
+# *.keystore
 *.p12
 *.key
 
